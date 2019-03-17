@@ -7,6 +7,7 @@ package it.polito.tdp.alien;
 
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -61,14 +62,18 @@ public class AlienController {
     	    			txtWord.clear();
     	    			btnReset.setDisable(false);
     	    		}else {
-    	    			String traduzione=dizionario.traslateWord(pAliena);
+    	    			List<String> traduzione=dizionario.traslateWord(pAliena);
     	    			
     	    			if(traduzione==null) {
-    	    				txtResult.setText("La parola cercata non è presente nel dizionario");
+    	    				txtResult.setText("La parola cercata non è presente nel dizionario\n");
+    	    				txtWord.clear();
     	    				return;
     	    			}
     	    			
-    	    			txtResult.setText(traduzione);
+    	    			txtResult.clear();
+    	    			for(int i=0; i<traduzione.size();i++) {
+    	    			txtResult.appendText(traduzione.get(i)+"\n");
+    	    			}
     	    			txtWord.clear();
     	    		}
     	    	}

@@ -4,40 +4,38 @@ import java.util.*;
 
 public class AlienDictionary {
 
-	private List<Word> listaParole;
+	private List<WordEnhanced> listaParole;
 	
 	public AlienDictionary() {
-		this.listaParole=new LinkedList<Word>();
+		this.listaParole=new LinkedList<WordEnhanced>();
 	}
 	
 	public void addWord(String alienWord, String translation) {
 		
-		Word parolaNuova=new Word(alienWord, translation);
-		
-		for(int i=0; i<listaParole.size();i++) {
-			Word wLista=listaParole.get(i);
-			String alienLista=wLista.getAlienWord();
-			
-			if(alienLista.equals(alienWord)) {		//se la parola che si vuole aggiungere nella lista è gia presente nella lista, aggiorno
-				listaParole.remove(i);
-				listaParole.add(parolaNuova);
+			for(int i=0; i<listaParole.size();i++) {
+				if(listaParole.get(i).getAlienWord().equals(alienWord)) {
+					if(listaParole.get(i).elencoTraduzioni().contains(translation)) {
+						return;
+					}else {
+						listaParole.get(i).aggiungiTraduzione(translation);
+						return;
+					}
+				}
 			}
 			
-		}
-		
-		listaParole.add(parolaNuova);
-
-		
+			WordEnhanced nuovaParola=new WordEnhanced(alienWord);
+			nuovaParola.aggiungiTraduzione(translation);
+			listaParole.add(nuovaParola);
 	}
 	
 	
-	public String traslateWord(String alienWord) {
+	public List<String> traslateWord(String alienWord) {
 		
 		for(int i=0; i<listaParole.size();i++) {
-			Word wLista=listaParole.get(i);
+			WordEnhanced wLista=listaParole.get(i);
 			String alienLista=wLista.getAlienWord();
 			if(alienLista.equals(alienWord)) {
-				return wLista.getTranslation();
+				return wLista.elencoTraduzioni();
 			}
 		}
 		
@@ -46,7 +44,6 @@ public class AlienDictionary {
 
 	public void reset() {
 		listaParole.clear();//resetta tutta la lista
-		// TODO Auto-generated method stub
 	}
 	
 }
